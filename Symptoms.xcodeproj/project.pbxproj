@@ -15,6 +15,12 @@
 		FA2A0DA227778016006BDA49 /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2A0DA127778016006BDA49 /* ComplicationController.swift */; };
 		FA2A0DA427778016006BDA49 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA2A0DA327778016006BDA49 /* Assets.xcassets */; };
 		FA2A0DA727778016006BDA49 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA2A0DA627778016006BDA49 /* Preview Assets.xcassets */; };
+		FA2A0DB92777B04C006BDA49 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA2A0DB82777B04C006BDA49 /* HealthKit.framework */; };
+		FA2A0DBB2777BB86006BDA49 /* CategoryPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2A0DBA2777BB86006BDA49 /* CategoryPair.swift */; };
+		FA2A0DD22777F2EC006BDA49 /* HKCategoryType+Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2A0DD12777F2EC006BDA49 /* HKCategoryType+Localization.swift */; };
+		FA2A0DD42777F3A7006BDA49 /* HKCategoryValues+Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2A0DD32777F3A7006BDA49 /* HKCategoryValues+Localization.swift */; };
+		FA2A0DD62778E1F5006BDA49 /* HealthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2A0DD52778E1F5006BDA49 /* HealthService.swift */; };
+		FA2A0DD92778E3F5006BDA49 /* CategoryEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2A0DD82778E3F5006BDA49 /* CategoryEntry.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +76,13 @@
 		FA2A0DA327778016006BDA49 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FA2A0DA627778016006BDA49 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		FA2A0DA827778016006BDA49 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FA2A0DB62777B04C006BDA49 /* Symptoms.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Symptoms.entitlements; sourceTree = "<group>"; };
+		FA2A0DB82777B04C006BDA49 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS8.3.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
+		FA2A0DBA2777BB86006BDA49 /* CategoryPair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPair.swift; sourceTree = "<group>"; };
+		FA2A0DD12777F2EC006BDA49 /* HKCategoryType+Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HKCategoryType+Localization.swift"; sourceTree = "<group>"; };
+		FA2A0DD32777F3A7006BDA49 /* HKCategoryValues+Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HKCategoryValues+Localization.swift"; sourceTree = "<group>"; };
+		FA2A0DD52778E1F5006BDA49 /* HealthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthService.swift; sourceTree = "<group>"; };
+		FA2A0DD82778E3F5006BDA49 /* CategoryEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryEntry.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA2A0DB92777B04C006BDA49 /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,6 +103,7 @@
 				FA2A0D9127778015006BDA49 /* Symptoms WatchKit App */,
 				FA2A0D9C27778016006BDA49 /* Symptoms WatchKit Extension */,
 				FA2A0D8A27778015006BDA49 /* Products */,
+				FA2A0DB72777B04C006BDA49 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -113,10 +128,13 @@
 		FA2A0D9C27778016006BDA49 /* Symptoms WatchKit Extension */ = {
 			isa = PBXGroup;
 			children = (
-				FA2A0D9D27778016006BDA49 /* ContentView.swift */,
 				FA2A0D9F27778016006BDA49 /* SymptomsApp.swift */,
+				FA2A0DBC2777BB93006BDA49 /* Views */,
+				FA2A0DBD2777BB99006BDA49 /* Models */,
+				FA2A0DD72778E1FF006BDA49 /* Services */,
 				FA2A0DA127778016006BDA49 /* ComplicationController.swift */,
 				FA2A0DA327778016006BDA49 /* Assets.xcassets */,
+				FA2A0DB62777B04C006BDA49 /* Symptoms.entitlements */,
 				FA2A0DA827778016006BDA49 /* Info.plist */,
 				FA2A0DA527778016006BDA49 /* Preview Content */,
 			);
@@ -129,6 +147,41 @@
 				FA2A0DA627778016006BDA49 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		FA2A0DB72777B04C006BDA49 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FA2A0DB82777B04C006BDA49 /* HealthKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FA2A0DBC2777BB93006BDA49 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				FA2A0D9D27778016006BDA49 /* ContentView.swift */,
+				FA2A0DD82778E3F5006BDA49 /* CategoryEntry.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		FA2A0DBD2777BB99006BDA49 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				FA2A0DBA2777BB86006BDA49 /* CategoryPair.swift */,
+				FA2A0DD12777F2EC006BDA49 /* HKCategoryType+Localization.swift */,
+				FA2A0DD32777F3A7006BDA49 /* HKCategoryValues+Localization.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		FA2A0DD72778E1FF006BDA49 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				FA2A0DD52778E1F5006BDA49 /* HealthService.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -258,9 +311,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA2A0DD42777F3A7006BDA49 /* HKCategoryValues+Localization.swift in Sources */,
 				FA2A0D9E27778016006BDA49 /* ContentView.swift in Sources */,
+				FA2A0DBB2777BB86006BDA49 /* CategoryPair.swift in Sources */,
 				FA2A0DA027778016006BDA49 /* SymptomsApp.swift in Sources */,
+				FA2A0DD62778E1F5006BDA49 /* HealthService.swift in Sources */,
 				FA2A0DA227778016006BDA49 /* ComplicationController.swift in Sources */,
+				FA2A0DD92778E3F5006BDA49 /* CategoryEntry.swift in Sources */,
+				FA2A0DD22777F2EC006BDA49 /* HKCategoryType+Localization.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -398,6 +456,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_ENTITLEMENTS = "Symptoms WatchKit Extension/Symptoms.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Symptoms WatchKit Extension/Preview Content\"";
@@ -422,7 +481,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 8.3;
+				WATCHOS_DEPLOYMENT_TARGET = 8.0;
 			};
 			name = Debug;
 		};
@@ -430,6 +489,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_ENTITLEMENTS = "Symptoms WatchKit Extension/Symptoms.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Symptoms WatchKit Extension/Preview Content\"";
@@ -454,7 +514,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 8.3;
+				WATCHOS_DEPLOYMENT_TARGET = 8.0;
 			};
 			name = Release;
 		};
@@ -479,7 +539,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 8.3;
+				WATCHOS_DEPLOYMENT_TARGET = 8.0;
 			};
 			name = Debug;
 		};
@@ -504,7 +564,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 8.3;
+				WATCHOS_DEPLOYMENT_TARGET = 8.0;
 			};
 			name = Release;
 		};
