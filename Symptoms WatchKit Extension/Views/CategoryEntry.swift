@@ -27,7 +27,7 @@ struct CategoryEntry: View {
             Button {
                 let now = Date()
                 let sample = HKCategorySample(type: categoryPair.keyType, value: selection, start: now, end: now)
-                HealthService.shared.healthStore.save(sample) { success, error in
+                HealthService.shared.save(sample) { success, error in
                     self.success = success
                     guard success else { return }
                     

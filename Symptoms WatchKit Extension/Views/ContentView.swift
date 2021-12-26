@@ -20,7 +20,7 @@ struct ContentView: View {
             }
             .navigationTitle("Symptoms")
             .onAppear {
-                HealthService.shared.healthStore.requestAuthorization(toShare: Set(symptoms.map(\.keyType)), read: nil) { success, error in
+                HealthService.shared.requestAuthorization(toShare: Set(symptoms.map(\.keyType))) { success, error in
                     print("requestAuthorization", success, String(describing: error))
                 }
             }
