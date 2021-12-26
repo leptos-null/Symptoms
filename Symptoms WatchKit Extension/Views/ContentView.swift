@@ -12,15 +12,17 @@ struct ContentView: View {
     let symptoms: [CategoryPair] = CategoryPair.symptoms.sorted { $0.keyType.localizedName < $1.keyType.localizedName }
     
     var body: some View {
-        List(symptoms) { symptom in
-            NavigationLink(symptom.keyType.localizedName) {
-                CategoryEntry(categoryPair: symptom)
+        NavigationView {
+            List(symptoms) { symptom in
+                NavigationLink(symptom.keyType.localizedName) {
+                    CategoryEntry(categoryPair: symptom)
+                }
             }
-        }
-        .navigationTitle("Symptoms")
-        .onAppear {
-            HealthService.shared.healthStore.requestAuthorization(toShare: Set(symptoms.map(\.keyType)), read: nil) { success, error in
-                print("requestAuthorization", success, String(describing: error))
+            .navigationTitle("Symptoms")
+            .onAppear {
+                HealthService.shared.healthStore.requestAuthorization(toShare: Set(symptoms.map(\.keyType)), read: nil) { success, error in
+                    print("requestAuthorization", success, String(describing: error))
+                }
             }
         }
     }
