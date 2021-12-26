@@ -13,30 +13,8 @@ struct ContentView: View {
     
     var body: some View {
         List(symptoms) { symptom in
-            NavigationLink {
-                if symptom.valueType is HKCategoryValueSeverity.Type {
-                    CategoryEntry(category: symptom.keyType, range: 0..<5) { value in
-                        guard let severity = HKCategoryValueSeverity(rawValue: value),
-                              let localizedName = severity.localizedName else { return "HKCategoryValueSeverity(\(value))" }
-                        return localizedName
-                    }
-                } else if symptom.valueType is HKCategoryValueAppetiteChanges.Type {
-                    CategoryEntry(category: symptom.keyType, range: 0..<4) { value in
-                        guard let appetiteChanges = HKCategoryValueAppetiteChanges(rawValue: value),
-                              let localizedName = appetiteChanges.localizedName else { return "HKCategoryValueAppetiteChanges(\(value))" }
-                        return localizedName
-                    }
-                } else if symptom.valueType is HKCategoryValuePresence.Type {
-                    CategoryEntry(category: symptom.keyType, range: 0..<2) { value in
-                        guard let presence = HKCategoryValuePresence(rawValue: value),
-                              let localizedName = presence.localizedName else { return "HKCategoryValuePresence(\(value))" }
-                        return localizedName
-                    }
-                } else {
-                    Text("Unsupported type: \(String(describing: symptom.valueType))")
-                }
-            } label: {
-                Text(symptom.keyType.localizedName)
+            NavigationLink(symptom.keyType.localizedName) {
+                CategoryEntry(categoryPair: symptom)
             }
         }
         .navigationTitle("Symptoms")

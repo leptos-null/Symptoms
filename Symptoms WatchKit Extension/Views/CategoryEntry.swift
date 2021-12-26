@@ -9,9 +9,7 @@ import SwiftUI
 import HealthKit
 
 struct CategoryEntry: View {
-    let category: HKCategoryType
-    let range: Range<Int>
-    let valueProvider: ((Int) -> String)
+    let categoryPair: CategoryPair
     
     @Environment(\.presentationMode) var presentationMode
     
@@ -20,15 +18,15 @@ struct CategoryEntry: View {
     
     var body: some View {
         VStack {
-            Picker(category.localizedName, selection: $selection) {
-                ForEach(range) { value in
-                    Text(valueProvider(value))
+            Picker(categoryPair.keyType.localizedName, selection: $selection) {
+                ForEach(categoryPair.valueType.range) { value in
+                    Text(categoryPair.valueType.localizedName(for: value))
                 }
             }
             
             Button {
                 let now = Date()
-                let sample = HKCategorySample(type: category, value: selection, start: now, end: now)
+                let sample = HKCategorySample(type: categoryPair.keyType, value: selection, start: now, end: now)
                 HealthService.shared.healthStore.save(sample) { success, error in
                     self.success = success
                     guard success else { return }

@@ -8,18 +8,49 @@
 import HealthKit
 
 struct CategoryPair {
-    let keyType: HKCategoryType
-    let valueType: Any.Type
+    enum ValueType {
+        case severity        // HKCategoryValueSeverity
+        case appetiteChanges // HKCategoryValueAppetiteChanges
+        case presence        // HKCategoryValuePresence
+        
+        var range: Range<Int> {
+            switch self {
+            case .severity: return 0..<5
+            case .appetiteChanges: return 0..<4
+            case .presence: return 0..<2
+            }
+        }
+        
+        func localizedName(for value: Int) -> String {
+            switch self {
+            case .severity:
+                guard let severity = HKCategoryValueSeverity(rawValue: value),
+                      let localizedName = severity.localizedName else { return "HKCategoryValueSeverity(\(value))" }
+                return localizedName
+            case .appetiteChanges:
+                guard let appetiteChanges = HKCategoryValueAppetiteChanges(rawValue: value),
+                      let localizedName = appetiteChanges.localizedName else { return "HKCategoryValueAppetiteChanges(\(value))" }
+                return localizedName
+            case .presence:
+                guard let presence = HKCategoryValuePresence(rawValue: value),
+                      let localizedName = presence.localizedName else { return "HKCategoryValuePresence(\(value))" }
+                return localizedName
+            }
+        }
+    }
     
-    init(keyType: HKCategoryType, valueType: Any.Type) {
+    let keyType: HKCategoryType
+    let valueType: ValueType
+    
+    init(keyType: HKCategoryType, valueType: ValueType) {
         self.keyType = keyType
         self.valueType = valueType
     }
-    init(_ keyType: HKCategoryType, _ valueType: Any.Type) {
+    init(_ keyType: HKCategoryType, _ valueType: ValueType) {
         self.keyType = keyType
         self.valueType = valueType
     }
-    init(_ keyTypeIdentifier: HKCategoryTypeIdentifier, valueType: Any.Type) {
+    init(_ keyTypeIdentifier: HKCategoryTypeIdentifier, valueType: ValueType) {
         self.keyType = HKCategoryType(keyTypeIdentifier)
         self.valueType = valueType
     }
@@ -31,44 +62,44 @@ extension CategoryPair: Identifiable {
 
 extension CategoryPair {
     static let symptoms = [
-        CategoryPair(.abdominalCramps,                    valueType: HKCategoryValueSeverity.self),
-        CategoryPair(.acne,                               valueType: HKCategoryValueSeverity.self),
-        CategoryPair(.appetiteChanges,                    valueType: HKCategoryValueAppetiteChanges.self),
-        CategoryPair(.bladderIncontinence,                valueType: HKCategoryValueSeverity.self),
-        CategoryPair(.bloating,                           valueType: HKCategoryValueSeverity.self),
-        CategoryPair(.breastPain,                         valueType: HKCategoryValueSeverity.self),
-        CategoryPair(.chestTightnessOrPain,               valueType: HKCategoryValueSeverity.self),
-        CategoryPair(.chills,                             valueType: HKCategoryValueSeverity.self),
-        CategoryPair(.constipation,                       valueType: HKCategoryValueSeverity.self),
-        CategoryPair(.coughing,                           valueType: HKCategoryValueSeverity.self),
-        CategoryPair(.diarrhea,                           valueType: HKCategoryValueSeverity.self),
-        CategoryPair(.dizziness,                          valueType: HKCategoryValueSeverity.self),
-        CategoryPair(.drySkin,                            valueType: HKCategoryValueSeverity.self),
-        CategoryPair(.fainting,                           valueType: HKCategoryValueSeverity.self),
-        CategoryPair(.fatigue,                            valueType: HKCategoryValueSeverity.self),
-        CategoryPair(.fever,                              valueType: HKCategoryValueSeverity.self),
-        CategoryPair(.generalizedBodyAche,                valueType: HKCategoryValueSeverity.self),
-        CategoryPair(.hairLoss,                           valueType: HKCategoryValueSeverity.self),
-        CategoryPair(.headache,                           valueType: HKCategoryValueSeverity.self),
-        CategoryPair(.heartburn,                          valueType: HKCategoryValueSeverity.self),
-        CategoryPair(.hotFlashes,                         valueType: HKCategoryValueSeverity.self),
-        CategoryPair(.lossOfSmell,                        valueType: HKCategoryValueSeverity.self),
-        CategoryPair(.lossOfTaste,                        valueType: HKCategoryValueSeverity.self),
-        CategoryPair(.lowerBackPain,                      valueType: HKCategoryValueSeverity.self),
-        CategoryPair(.memoryLapse,                        valueType: HKCategoryValueSeverity.self),
-        CategoryPair(.moodChanges,                        valueType: HKCategoryValuePresence.self),
-        CategoryPair(.nausea,                             valueType: HKCategoryValueSeverity.self),
-        CategoryPair(.nightSweats,                        valueType: HKCategoryValueSeverity.self),
-        CategoryPair(.pelvicPain,                         valueType: HKCategoryValueSeverity.self),
-        CategoryPair(.rapidPoundingOrFlutteringHeartbeat, valueType: HKCategoryValueSeverity.self),
-        CategoryPair(.runnyNose,                          valueType: HKCategoryValueSeverity.self),
-        CategoryPair(.shortnessOfBreath,                  valueType: HKCategoryValueSeverity.self),
-        CategoryPair(.sinusCongestion,                    valueType: HKCategoryValueSeverity.self),
-        CategoryPair(.skippedHeartbeat,                   valueType: HKCategoryValueSeverity.self),
-        CategoryPair(.sleepChanges,                       valueType: HKCategoryValuePresence.self),
-        CategoryPair(.soreThroat,                         valueType: HKCategoryValueSeverity.self),
-        CategoryPair(.vaginalDryness,                     valueType: HKCategoryValueSeverity.self),
-        CategoryPair(.vomiting,                           valueType: HKCategoryValueSeverity.self),
-        CategoryPair(.wheezing,                           valueType: HKCategoryValueSeverity.self),
+        CategoryPair(.abdominalCramps,                    valueType: .severity),
+        CategoryPair(.acne,                               valueType: .severity),
+        CategoryPair(.appetiteChanges,                    valueType: .appetiteChanges),
+        CategoryPair(.bladderIncontinence,                valueType: .severity),
+        CategoryPair(.bloating,                           valueType: .severity),
+        CategoryPair(.breastPain,                         valueType: .severity),
+        CategoryPair(.chestTightnessOrPain,               valueType: .severity),
+        CategoryPair(.chills,                             valueType: .severity),
+        CategoryPair(.constipation,                       valueType: .severity),
+        CategoryPair(.coughing,                           valueType: .severity),
+        CategoryPair(.diarrhea,                           valueType: .severity),
+        CategoryPair(.dizziness,                          valueType: .severity),
+        CategoryPair(.drySkin,                            valueType: .severity),
+        CategoryPair(.fainting,                           valueType: .severity),
+        CategoryPair(.fatigue,                            valueType: .severity),
+        CategoryPair(.fever,                              valueType: .severity),
+        CategoryPair(.generalizedBodyAche,                valueType: .severity),
+        CategoryPair(.hairLoss,                           valueType: .severity),
+        CategoryPair(.headache,                           valueType: .severity),
+        CategoryPair(.heartburn,                          valueType: .severity),
+        CategoryPair(.hotFlashes,                         valueType: .severity),
+        CategoryPair(.lossOfSmell,                        valueType: .severity),
+        CategoryPair(.lossOfTaste,                        valueType: .severity),
+        CategoryPair(.lowerBackPain,                      valueType: .severity),
+        CategoryPair(.memoryLapse,                        valueType: .severity),
+        CategoryPair(.moodChanges,                        valueType: .presence),
+        CategoryPair(.nausea,                             valueType: .severity),
+        CategoryPair(.nightSweats,                        valueType: .severity),
+        CategoryPair(.pelvicPain,                         valueType: .severity),
+        CategoryPair(.rapidPoundingOrFlutteringHeartbeat, valueType: .severity),
+        CategoryPair(.runnyNose,                          valueType: .severity),
+        CategoryPair(.shortnessOfBreath,                  valueType: .severity),
+        CategoryPair(.sinusCongestion,                    valueType: .severity),
+        CategoryPair(.skippedHeartbeat,                   valueType: .severity),
+        CategoryPair(.sleepChanges,                       valueType: .presence),
+        CategoryPair(.soreThroat,                         valueType: .severity),
+        CategoryPair(.vaginalDryness,                     valueType: .severity),
+        CategoryPair(.vomiting,                           valueType: .severity),
+        CategoryPair(.wheezing,                           valueType: .severity),
     ]
 }
