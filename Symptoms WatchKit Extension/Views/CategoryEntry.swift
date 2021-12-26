@@ -11,7 +11,7 @@ import HealthKit
 struct CategoryEntry: View {
     let categoryPair: CategoryPair
     
-    @Environment(\.presentationMode) private var presentationMode
+    @Environment(\.dismiss) private var dismiss
     
     @State private var selection: Int = 0
     @State private var success: Bool?
@@ -32,7 +32,7 @@ struct CategoryEntry: View {
                     guard success else { return }
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-                        self.presentationMode.wrappedValue.dismiss()
+                        self.dismiss()
                     })
                 }
             } label: {
