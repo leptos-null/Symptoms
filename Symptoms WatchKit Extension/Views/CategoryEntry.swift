@@ -11,7 +11,7 @@ import HealthKit
 struct CategoryEntry: View {
     let categoryPair: CategoryPair
     
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.presentationMode) private var presentationMode
     
     @State private var selection: Int = 0
     @State private var success: Bool?
@@ -47,5 +47,11 @@ struct CategoryEntry: View {
             .disabled(success != nil)
             .animation(.linear(duration: 0.25), value: success)
         }
+    }
+}
+
+struct CategoryEntry_Previews: PreviewProvider {
+    static var previews: some View {
+        CategoryEntry(categoryPair: CategoryPair(.dizziness, valueType: .severity))
     }
 }
