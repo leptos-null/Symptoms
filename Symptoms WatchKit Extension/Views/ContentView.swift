@@ -19,9 +19,11 @@ struct ContentView: View {
                 }
             }
             .navigationTitle("Symptoms")
-            .onAppear {
-                HealthService.shared.requestAuthorization(toShare: Set(symptoms.map(\.keyType))) { success, error in
-                    print("requestAuthorization", success, String(describing: error))
+            .task {
+                do {
+                    try await HealthService.shared.requestAuthorization(toShare: Set(symptoms.map(\.keyType)))
+                } catch {
+                    print("requestAuthorization", error)
                 }
             }
         }

@@ -12,11 +12,11 @@ final class HealthService {
     
     private let healthStore = HKHealthStore()
     
-    func save(_ object: HKObject, withCompletion completion: @escaping (Bool, Error?) -> Void) {
-        healthStore.save(object, withCompletion: completion)
+    func save(_ object: HKObject) async throws {
+        try await healthStore.save(object)
     }
     
-    func requestAuthorization(toShare typesToShare: Set<HKSampleType>? = nil, read typesToRead: Set<HKObjectType>? = nil, completion: @escaping (Bool, Error?) -> Void) {
-        healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead, completion: completion)
+    func requestAuthorization(toShare typesToShare: Set<HKSampleType> = Set(), read typesToRead: Set<HKObjectType> = Set()) async throws {
+        try await healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead)
     }
 }

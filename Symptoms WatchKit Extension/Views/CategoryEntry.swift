@@ -27,13 +27,18 @@ struct CategoryEntry: View {
             Button {
                 let now = Date()
                 let sample = HKCategorySample(type: categoryPair.keyType, value: selection, start: now, end: now)
-                HealthService.shared.save(sample) { success, error in
-                    self.success = success
-                    guard success else { return }
+                Task(priority: .userInitiated) {
+                    do {
+                        try await HealthService.shared.save(sample)
+                        self.success = true
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                            self.dismiss()
+                        })
+                    } catch {
+                        self.success = false
+                    }
                     
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-                        self.dismiss()
-                    })
                 }
             } label: {
                 Label(
