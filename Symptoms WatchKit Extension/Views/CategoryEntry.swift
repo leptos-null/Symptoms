@@ -11,10 +11,63 @@ import HealthKit
 struct CategoryEntry: View {
     let categoryPair: CategoryPair
     
+    private enum SaveState: Equatable {
+        case initial
+        case saving
+        case success
+        case failure(Error)
+        
+        static func == (lhs: SaveState, rhs: SaveState) -> Bool {
+            switch (lhs, rhs) {
+            case (.initial, .initial): return true
+            case (.saving, .saving):   return true
+            case (.success, .success): return true
+            case (.failure(_), .failure(_)): return true
+            default: return false
+            }
+        }
+    }
+    
     @Environment(\.dismiss) private var dismiss
     
     @State private var selection: Int = 0
-    @State private var success: Bool?
+    @State private var saveState: SaveState = .initial
+    
+    private var buttonText: String {
+        switch saveState {
+        case .initial: return "Save"
+        case .saving: return "Saving"
+        case .success: return "Saved"
+        case .failure(_): return "Error"
+        }
+    }
+    
+    private var buttonImageName: String {
+        switch saveState {
+        case .initial: return "checkmark.circle"
+        case .saving: return "checkmark.circle"
+        case .success: return "checkmark.circle"
+        case .failure(_): return "xmark.circle"
+        }
+    }
+    
+    private var buttonBackground: Color {
+        switch saveState {
+        case .initial: return .white
+        case .saving: return .white
+        case .success: return .green
+        case .failure(_): return .red
+        }
+    }
+    
+    private var buttonForeground: Color {
+        switch saveState {
+        case .initial: return .green
+        case .saving: return .green
+        case .success: return .green
+        case .failure(_): return .red
+        }
+    }
     
     var body: some View {
         VStack {
@@ -28,29 +81,30 @@ struct CategoryEntry: View {
                 let now = Date()
                 let sample = HKCategorySample(type: categoryPair.keyType, value: selection, start: now, end: now)
                 Task(priority: .userInitiated) {
+                    saveState = .saving
                     do {
                         try await HealthService.shared.save(sample)
-                        self.success = true
+                        saveState = .success
                         
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-                            self.dismiss()
-                        })
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.875) {
+                            dismiss()
+                        }
                     } catch {
-                        self.success = false
+                        saveState = .failure(error)
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.875) {
+                            saveState = .initial
+                        }
                     }
-                    
                 }
             } label: {
-                Label(
-                    success == nil ? "Save" : (success == true ? "Saved" : "Error"),
-                    systemImage: success != false ? "checkmark.circle" : "x.circle"
-                )
+                Label(buttonText, systemImage: buttonImageName)
             }
             .buttonStyle(.borderedProminent)
-            .foregroundColor(success != false ? .green : .red)
-            .tint((success == nil ? Color.white : (success == true ? .green : .red)).opacity(0.125))
-            .disabled(success != nil)
-            .animation(.linear(duration: 0.25), value: success)
+            .foregroundColor(buttonForeground)
+            .tint(buttonBackground.opacity(0.125))
+            .disabled(saveState != .initial)
+            .animation(.linear(duration: 0.25), value: saveState)
         }
     }
 }
