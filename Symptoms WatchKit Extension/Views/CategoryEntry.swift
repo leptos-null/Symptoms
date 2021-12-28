@@ -71,11 +71,24 @@ struct CategoryEntry: View {
     
     var body: some View {
         VStack {
-            Picker(categoryPair.keyType.localizedName, selection: $selection) {
-                ForEach(categoryPair.valueType.range) { value in
-                    Text(categoryPair.valueType.localizedName(for: value))
+            Spacer()
+            
+            Group {
+                if case .failure(let error) = saveState {
+                    Text(error.localizedDescription)
+                        .multilineTextAlignment(.center)
+                } else {
+                    Picker(categoryPair.keyType.localizedName, selection: $selection) {
+                        ForEach(categoryPair.valueType.range) { value in
+                            Text(categoryPair.valueType.localizedName(for: value))
+                        }
+                    }
+                    .disabled(saveState != .initial)
                 }
             }
+            .transition(.opacity.animation(.easeIn(duration: 0.125)))
+            
+            Spacer()
             
             Button {
                 let now = Date()
@@ -92,7 +105,7 @@ struct CategoryEntry: View {
                     } catch {
                         saveState = .failure(error)
                         
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.875) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.25) {
                             saveState = .initial
                         }
                     }
