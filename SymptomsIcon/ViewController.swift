@@ -25,6 +25,12 @@ private struct AppIconSetContents: Codable {
     var info: Info
 }
 
+extension CGPoint {
+    init(center: CGPoint, radius: CGFloat, angle: Double) {
+        self.init(x: center.x + radius * cos(angle), y: center.y + radius * sin(angle))
+    }
+}
+
 class ViewController: UIViewController {
     
     @IBOutlet weak var imageView: UIImageView!
@@ -36,7 +42,149 @@ class ViewController: UIViewController {
         
         let renderer = UIGraphicsImageRenderer(size: size, format: rendererFormat)
         return renderer.image { rendererContext in
+            let watchTraitCollection = UITraitCollection(userInterfaceIdiom: UIUserInterfaceIdiom(rawValue: 4)!)
+            let backgroundColor = UIColor(displayP3Red: 200/255.0, green: 235/255.0, blue: 245/255.0, alpha: 1)
+            let clipboardColor: UIColor = .systemRed.resolvedColor(with: watchTraitCollection)
+            let foregroundColor: UIColor = .white
             
+            let dimension = min(size.width, size.height)
+            
+            backgroundColor.setFill()
+            rendererContext.fill(CGRect(origin: .zero, size: size))
+            
+            let boardSize = CGSize(width: dimension*0.51, height: dimension*0.62)
+            let boardOrigin = CGPoint(x: (size.width - boardSize.width)/2, y: (size.height - boardSize.height)/2)
+            let board = UIBezierPath(roundedRect: CGRect(origin: boardOrigin, size: boardSize), cornerRadius: dimension/24)
+            
+            clipboardColor.setFill()
+            board.fill()
+            
+            let paperInset = dimension/14
+            let paperSize = CGSize(width: boardSize.width - paperInset, height: boardSize.height - paperInset)
+            let paperOrigin = CGPoint(x: (size.width - paperSize.width)/2, y: (size.height - paperSize.height)/2)
+            let paper = UIBezierPath(roundedRect: CGRect(origin: paperOrigin, size: paperSize), cornerRadius: dimension/128)
+            
+            foregroundColor.setFill()
+            paper.fill()
+            
+            let clipSize = CGSize(width: dimension*0.325, height: dimension*0.086)
+            let clipOrigin = CGPoint(x: (size.width - clipSize.width)/2, y: paperOrigin.y + dimension*0.02 - clipSize.height)
+            let clip = UIBezierPath(roundedRect: CGRect(origin: clipOrigin, size: clipSize),
+                                    byRoundingCorners: [.topLeft, .topRight], cornerRadii: CGSize(width: clipSize.height * 0.34, height: 0))
+            
+            clipboardColor.setFill()
+            clip.fill()
+            
+            /*  ASCII heart for demonstration
+             *
+             *         * - *   * - *
+             *        *     \ /     *
+             *         *     *     *
+             *           *       *
+             *             *   *
+             *               *
+             *
+             */
+            let heart = UIBezierPath()
+            let heartRadius = dimension * 0.044
+            
+            /*  heartTopPoint is where the heart dips in the middle
+             *
+             *      * - *   * - *      |
+             *     *     \ /     *     |
+             *      *     *     *      |            *
+             *        *       *        |
+             *          *   *          |
+             *            *            |
+             *                         |
+             */
+            let heartTopPoint = CGPoint(x: paperOrigin.x + dimension*0.128, y: paperOrigin.y + dimension*0.10)
+            
+            /* angles are clockwise (i.e. 1/2 pi is at the 6 o'clock position) */
+            
+            
+            /*  add the left-hand semi-circle
+             *
+             *      * - *   * - *      |      * - *
+             *     *     \ /     *     |     *     \
+             *      *     *     *      |      *     *
+             *        *       *        |
+             *          *   *          |
+             *            *            |
+             *                         |
+             */
+            let heartLeftCenter = CGPoint(center: heartTopPoint, radius: heartRadius, angle: .pi * 3/4.0)
+            heart.addArc(withCenter: heartLeftCenter, radius: heartRadius,
+                         startAngle: .pi * 3/4.0, endAngle: .pi * 7/4.0, clockwise: true)
+            /*  add the right-hand semi-circle
+             *
+             *      * - *   * - *      |              * - *
+             *     *     \ /     *     |             /     *
+             *      *     *     *      |            *     *
+             *        *       *        |
+             *          *   *          |
+             *            *            |
+             *                         |
+             */
+            let heartRightCenter = CGPoint(center: heartTopPoint, radius: heartRadius, angle: .pi * 1/4.0)
+            heart.addArc(withCenter: heartRightCenter, radius: heartRadius,
+                         startAngle: .pi * 5/4.0, endAngle: .pi * 9/4.0, clockwise: true)
+            /* add a line to the bottom-most point
+             *
+             *      * - *   * - *      |
+             *     *     \ /     *     |
+             *      *     *     *      |
+             *        *       *        |                *
+             *          *   *          |              *
+             *            *            |            *
+             *                         |
+             */
+            heart.addLine(to: CGPoint(x: heartTopPoint.x, y: heartTopPoint.y + heartRadius * sqrt(8)))
+            /* add a line to the initial point
+             *
+             *      * - *   * - *      |
+             *     *     \ /     *     |
+             *      *     *     *      |
+             *        *       *        |        *
+             *          *   *          |          *
+             *            *            |            *
+             *                         |
+             */
+            heart.close()
+            
+            heart.fill()
+            
+            let heartMinPoint = CGPoint(center: heartLeftCenter, radius: heartRadius, angle: .pi)
+            let heartMaxPoint = CGPoint(center: heartRightCenter, radius: heartRadius, angle: 0)
+            
+            let paperMargin = heartMinPoint.x - paperOrigin.x
+            let lineHeight = dimension/48
+            
+            let partLineInset = (heartMaxPoint.x - paperOrigin.x) + paperMargin
+            let partLineSize = CGSize(width: paperSize.width - (paperMargin + partLineInset), height: lineHeight)
+            let partLineX = paperOrigin.x + partLineInset
+            
+            let fullLineSize = CGSize(width: paperSize.width - paperMargin * 2, height: lineHeight)
+            let fullLineX = paperOrigin.x + paperMargin
+            
+            var linePosition = 0.18
+            let lineSpacing = 0.16
+            // part lines
+            for _ in 0..<2 {
+                UIBezierPath(
+                    roundedRect: CGRect(origin: CGPoint(x: partLineX, y: paperOrigin.y + paperSize.height * linePosition), size: partLineSize),
+                    cornerRadius: lineHeight/2
+                ).fill()
+                linePosition += lineSpacing
+            }
+            // full lines
+            for _ in 0..<3 {
+                UIBezierPath(
+                    roundedRect: CGRect(origin: CGPoint(x: fullLineX, y: paperOrigin.y + paperSize.height * linePosition), size: fullLineSize),
+                    cornerRadius: lineHeight/2
+                ).fill()
+                linePosition += lineSpacing
+            }
         }
     }
     
