@@ -10,6 +10,11 @@ import HealthKit
 
 struct ContentView: View {
     let symptoms: [CategoryPair] = CategoryPair.symptoms.sorted { $0.keyType.localizedName < $1.keyType.localizedName }
+    let healthStore: HealthStoreProvider
+    
+    init(healthStore: HealthStoreProvider = HealthService.shared) {
+        self.healthStore = healthStore
+    }
     
     @State private var authorizationError: Error?
     
@@ -17,13 +22,13 @@ struct ContentView: View {
         NavigationView {
             List(symptoms) { symptom in
                 NavigationLink(symptom.keyType.localizedName) {
-                    CategoryEntry(categoryPair: symptom)
+                    CategoryEntry(categoryPair: symptom, healthStore: healthStore)
                 }
             }
             .navigationTitle("Symptoms")
             .task {
                 do {
-                    try await HealthService.shared.requestAuthorization(toShare: Set(symptoms.map(\.keyType)))
+                    try await healthStore.requestAuthorization(toShare: Set(symptoms.map(\.keyType)))
                 } catch {
                     authorizationError = error
                 }
@@ -39,6 +44,8 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView(healthStore: AcceptHealthStore.fast)
+        ContentView(healthStore: FailureHealthStore.fast)
+        ContentView(healthStore: AcceptHealthStore.slow)
     }
 }

@@ -10,6 +10,7 @@ import HealthKit
 
 struct CategoryEntry: View {
     let categoryPair: CategoryPair
+    let healthStore: HealthStoreProvider
     
     private enum SaveState: Equatable {
         case initial
@@ -96,7 +97,7 @@ struct CategoryEntry: View {
                 Task(priority: .userInitiated) {
                     saveState = .saving
                     do {
-                        try await HealthService.shared.save(sample)
+                        try await healthStore.save(sample)
                         saveState = .success
                         
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.875) {
@@ -124,6 +125,8 @@ struct CategoryEntry: View {
 
 struct CategoryEntry_Previews: PreviewProvider {
     static var previews: some View {
-        CategoryEntry(categoryPair: CategoryPair(.dizziness, valueType: .severity))
+        CategoryEntry(categoryPair: CategoryPair(.coughing, valueType: .severity), healthStore: AcceptHealthStore.fast)
+        CategoryEntry(categoryPair: CategoryPair(.dizziness, valueType: .severity), healthStore: FailureHealthStore.fast)
+        CategoryEntry(categoryPair: CategoryPair(.fatigue, valueType: .severity), healthStore: AcceptHealthStore.slow)
     }
 }

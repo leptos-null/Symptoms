@@ -7,7 +7,7 @@
 
 import HealthKit
 
-final class HealthService {
+final class HealthService: HealthStoreProvider {
     static let shared = HealthService()
     
     private let healthStore = HKHealthStore()
@@ -16,7 +16,7 @@ final class HealthService {
         try await healthStore.save(object)
     }
     
-    func requestAuthorization(toShare typesToShare: Set<HKSampleType> = Set(), read typesToRead: Set<HKObjectType> = Set()) async throws {
+    func requestAuthorization(toShare typesToShare: Set<HKSampleType>, read typesToRead: Set<HKObjectType>) async throws {
         try await healthStore.requestAuthorization(toShare: typesToShare, read: typesToRead)
     }
 }
