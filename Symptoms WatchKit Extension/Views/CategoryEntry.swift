@@ -21,9 +21,9 @@ struct CategoryEntry: View {
         static func == (lhs: SaveState, rhs: SaveState) -> Bool {
             switch (lhs, rhs) {
             case (.initial, .initial): return true
-            case (.saving, .saving):   return true
+            case (.saving,  .saving):  return true
             case (.success, .success): return true
-            case (.failure(_), .failure(_)): return true
+            case (.failure, .failure): return true
             default: return false
             }
         }
@@ -34,39 +34,39 @@ struct CategoryEntry: View {
     @State private var selection: Int = 0
     @State private var saveState: SaveState = .initial
     
-    private var buttonText: String {
+    private var localizedButtonText: String {
         switch saveState {
         case .initial: return "Save"
-        case .saving: return "Saving"
+        case .saving:  return "Saving"
         case .success: return "Saved"
-        case .failure(_): return "Error"
+        case .failure: return "Error"
         }
     }
     
     private var buttonImageName: String {
         switch saveState {
         case .initial: return "checkmark.circle"
-        case .saving: return "checkmark.circle"
+        case .saving:  return "checkmark.circle"
         case .success: return "checkmark.circle"
-        case .failure(_): return "xmark.circle"
+        case .failure: return "xmark.circle"
         }
     }
     
     private var buttonBackground: Color {
         switch saveState {
         case .initial: return .white
-        case .saving: return .white
+        case .saving:  return .white
         case .success: return .green
-        case .failure(_): return .red
+        case .failure: return .red
         }
     }
     
     private var buttonForeground: Color {
         switch saveState {
         case .initial: return .green
-        case .saving: return .green
+        case .saving:  return .green
         case .success: return .green
-        case .failure(_): return .red
+        case .failure: return .red
         }
     }
     
@@ -112,7 +112,7 @@ struct CategoryEntry: View {
                     }
                 }
             } label: {
-                Label(buttonText, systemImage: buttonImageName)
+                Label(localizedButtonText, systemImage: buttonImageName)
             }
             .buttonStyle(.borderedProminent)
             .foregroundColor(buttonForeground)
