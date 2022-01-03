@@ -14,7 +14,6 @@
 		FA2A0D9927778016006BDA49 /* Symptoms WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = FA2A0D9827778016006BDA49 /* Symptoms WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		FA2A0D9E27778016006BDA49 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2A0D9D27778016006BDA49 /* ContentView.swift */; };
 		FA2A0DA027778016006BDA49 /* SymptomsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2A0D9F27778016006BDA49 /* SymptomsApp.swift */; };
-		FA2A0DA227778016006BDA49 /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2A0DA127778016006BDA49 /* ComplicationController.swift */; };
 		FA2A0DA427778016006BDA49 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA2A0DA327778016006BDA49 /* Assets.xcassets */; };
 		FA2A0DA727778016006BDA49 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA2A0DA627778016006BDA49 /* Preview Assets.xcassets */; };
 		FA2A0DB92777B04C006BDA49 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA2A0DB82777B04C006BDA49 /* HealthKit.framework */; };
@@ -81,7 +80,6 @@
 		FA2A0D9827778016006BDA49 /* Symptoms WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Symptoms WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA2A0D9D27778016006BDA49 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		FA2A0D9F27778016006BDA49 /* SymptomsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymptomsApp.swift; sourceTree = "<group>"; };
-		FA2A0DA127778016006BDA49 /* ComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
 		FA2A0DA327778016006BDA49 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FA2A0DA627778016006BDA49 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		FA2A0DA827778016006BDA49 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -157,7 +155,6 @@
 				FA2A0DBC2777BB93006BDA49 /* Views */,
 				FA2A0DBD2777BB99006BDA49 /* Models */,
 				FA2A0DD72778E1FF006BDA49 /* Services */,
-				FA2A0DA127778016006BDA49 /* ComplicationController.swift */,
 				FA2A0DA327778016006BDA49 /* Assets.xcassets */,
 				FA2A0DB62777B04C006BDA49 /* Symptoms.entitlements */,
 				FA2A0DA827778016006BDA49 /* Info.plist */,
@@ -389,7 +386,6 @@
 				FA07DE58277F8811008AB0EA /* HealthStoreProvider.swift in Sources */,
 				FA2A0DA027778016006BDA49 /* SymptomsApp.swift in Sources */,
 				FA2A0DD62778E1F5006BDA49 /* HealthService.swift in Sources */,
-				FA2A0DA227778016006BDA49 /* ComplicationController.swift in Sources */,
 				FA2A0DD92778E3F5006BDA49 /* CategoryEntry.swift in Sources */,
 				FA2A0DD22777F2EC006BDA49 /* HKCategoryType+Localization.swift in Sources */,
 			);
@@ -566,7 +562,6 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Symptoms WatchKit Extension/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Symptoms;
-				INFOPLIST_KEY_CLKComplicationPrincipalClass = "$(PRODUCT_MODULE_NAME).ComplicationController";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Save Symptoms to HealthKit";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_WKWatchOnly = YES;
@@ -600,7 +595,6 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Symptoms WatchKit Extension/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Symptoms;
-				INFOPLIST_KEY_CLKComplicationPrincipalClass = "$(PRODUCT_MODULE_NAME).ComplicationController";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Save Symptoms to HealthKit";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_WKWatchOnly = YES;
