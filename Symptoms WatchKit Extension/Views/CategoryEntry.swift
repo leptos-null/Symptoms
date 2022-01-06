@@ -79,10 +79,16 @@ struct CategoryEntry: View {
                     Text(error.localizedDescription)
                         .multilineTextAlignment(.center)
                 } else {
-                    Picker(categoryPair.keyType.localizedName, selection: $selection) {
+                    Picker(selection: $selection) {
                         ForEach(categoryPair.valueType.range) { value in
                             Text(categoryPair.valueType.localizedName(for: value))
                         }
+                    } label: {
+                        // the Picker initializer that takes a title string
+                        // results in really small text on 40mm and 44mm devices.
+                        Text(categoryPair.keyType.localizedName)
+                            .font(.headline)
+                            .allowsTightening(true)
                     }
                     .disabled(saveState != .initial)
                 }
