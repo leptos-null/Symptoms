@@ -352,6 +352,9 @@ class ViewController: UIViewController {
         
         let iconSet = URL(fileURLWithPath: "Symptoms WatchKit App/Assets.xcassets/AppIcon.appiconset", isDirectory: true, relativeTo: project)
         try! writeIconAssets(for: iconSet)
+        
+        let banner = URL(fileURLWithPath: "docs/banner.png", isDirectory: true, relativeTo: project)
+        try! writeGitHubPreview(to: banner, scale: 1)
     }
     
     override func viewDidLayoutSubviews() {
