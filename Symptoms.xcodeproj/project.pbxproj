@@ -556,7 +556,6 @@
 		FA2A0DAC27778016006BDA49 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_ENTITLEMENTS = "Symptoms WatchKit Extension/Symptoms.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Symptoms WatchKit Extension/Preview Content\"";
@@ -565,6 +564,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Symptoms WatchKit Extension/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Symptoms;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "View Symptoms history in HealthKit. This information never leaves your device.";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Save Symptoms to HealthKit";
 				INFOPLIST_KEY_WKWatchOnly = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -586,7 +586,6 @@
 		FA2A0DAD27778016006BDA49 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_ENTITLEMENTS = "Symptoms WatchKit Extension/Symptoms.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Symptoms WatchKit Extension/Preview Content\"";
@@ -595,6 +594,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Symptoms WatchKit Extension/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Symptoms;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "View Symptoms history in HealthKit. This information never leaves your device.";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Save Symptoms to HealthKit";
 				INFOPLIST_KEY_WKWatchOnly = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
