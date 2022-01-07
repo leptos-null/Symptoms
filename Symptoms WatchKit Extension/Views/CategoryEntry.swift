@@ -106,15 +106,13 @@ struct CategoryEntry: View {
                         try await healthStore.save(sample)
                         saveState = .success
                         
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.875) {
-                            dismiss()
-                        }
+                        try await Task.sleep(nanoseconds: 875_000_000) // 0.875 seconds
+                        dismiss()
                     } catch {
                         saveState = .failure(error)
                         
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.25) {
-                            saveState = .initial
-                        }
+                        try await Task.sleep(nanoseconds: 1_750_000_000) // 1.75 seconds
+                        saveState = .initial
                     }
                 }
             } label: {
